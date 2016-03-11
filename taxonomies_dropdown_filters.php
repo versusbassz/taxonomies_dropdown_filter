@@ -3,7 +3,7 @@
 	Plugin Name: Taxonomies dropdown filters
 	Plugin URI: http://imgf.ru/
 	Description: Enables dropdown filters by custom taxonomies on custom post types archive pages.
-	Version: 0.1.1
+	Version: 0.2.0
 	Author: Vladimir Sklyar
 	Author URI: http://imgf.ru/
 	*/
@@ -37,13 +37,16 @@
 
 			$post_types = get_post_types( array(
 				'public'   => true,
-				'_builtin' => false,
 			));
 
 			if ( in_array( $typenow , $post_types ) ) {
 				$post_type_taxonomies = get_object_taxonomies( $typenow );
 
 				foreach ( $post_type_taxonomies as $tax_slug ) {
+
+					if ( in_array( $tax_slug , [ 'category' , 'post_tag' , 'post_format' ] ) ) {
+						continue;
+					}
 
 					$taxonomy = get_taxonomy( $tax_slug );
 
@@ -72,7 +75,6 @@
 		}
 
 	}
-
 
 
 
@@ -127,5 +129,3 @@
 		}
 
 	}
-
-
